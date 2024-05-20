@@ -8,6 +8,32 @@ This documentation provides a comprehensive guide on how to create and package y
 >[!TIP]
 >See [Further Resources](#further-resources) for more precise documentation on specific matters.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Creating and Using Python Packages with Robocorp](#creating-and-using-python-packages-with-robocorp)
+  - [Prerequisites](#prerequisites)
+    - [Installing Python](#installing-python)
+    - [Installing and upgrading `build` and `pip`](#installing-and-upgrading-build-and-pip)
+    - [pyproject.toml](#pyprojecttoml)
+  - [Project Structure](#project-structure)
+  - [Building Your Package](#building-your-package)
+  - [Publishing Your Package](#publishing-your-package)
+  - [Versioning](#versioning)
+  - [Continuous Integration](#continuous-integration)
+  - [Further Resources](#further-resources)
+  - [Robocorp python packages](#robocorp-python-packages)
+    - [1.Installing from PyPI](#1installing-from-pypi)
+    - [2.Floating dependency from private github repository](#2floating-dependency-from-private-github-repository)
+    - [3.Installing from a local folder](#3installing-from-a-local-folder)
+      - [`-rccPostInstall:`](#-rccpostinstall)
+      - [`pip install -e`](#pip-install--e)
+      - [`"C:\\Users\\example_author\\Documents\\example_package"`](#c%5C%5Cusers%5C%5Cexample_author%5C%5Cdocuments%5C%5Cexample_package)
+  - [Action server example](#action-server-example)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Prerequisites
 
 Before packaging your Python project, ensure you have:
