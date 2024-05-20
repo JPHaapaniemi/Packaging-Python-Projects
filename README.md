@@ -163,7 +163,7 @@ The Python packaging ecosystem is evolving, and other methods may be worth explo
 
 There are 3 different ways to have your python package added as a dependency into your robocorp task package.
 
-![example of 3 different methods](resources/examples.jpg)
+![example of 3 different methods](examples.jpg)
 
 ### 1.Installing from PyPI
 
@@ -259,7 +259,7 @@ Same 3 methods work in action-server aswell. Key difference is that package.yaml
 The 3 methods used are in `lines 18-22.`  
 Below is an example how your package.yaml might look like.
 
-![example of action server pacakge.yaml](resources/action-server-example.jpg)
+![example of action server pacakge.yaml](action-server-example.jpg)
 
 >[!TIP]
 >For additional info about syntax, see [action-server documentation](https://github.com/robocorp/robocorp/tree/master/action_server/docs)/guides/01-package-yaml.md.
