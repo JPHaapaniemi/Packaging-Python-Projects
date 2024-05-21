@@ -8,15 +8,15 @@ This documentation provides a comprehensive guide on how to create and package y
 >[!TIP]
 >See [Further Resources](#further-resources) for more precise documentation on specific matters.
 
-<!-- markdownlint-capture -->
-<!-- markdownlint-disable -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+## Table of Contents
+
+*generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Prerequisites](#prerequisites)
   - [Installing Python](#installing-python)
-  - [Installing and upgrading `build` and `pip`](#installing-and-upgrading-build-and-pip)
+  - [Installing and upgrading build and pip](#installing-and-upgrading-build-and-pip)
   - [pyproject.toml](#pyprojecttoml)
     - [build-system](#build-system)
     - [project](#project)
@@ -31,12 +31,11 @@ This documentation provides a comprehensive guide on how to create and package y
   - [1.Installing from PyPI](#1installing-from-pypi)
   - [2.Floating dependency from private github repository](#2floating-dependency-from-private-github-repository)
   - [3.Installing from a local folder](#3installing-from-a-local-folder)
-    - [`-rccPostInstall:`](#-rccpostinstall)
-    - [`pip install -e`](#pip-install--e)
-    - [`"C:\\Users\\example_author\\Documents\\example_package"`](#c%5C%5Cusers%5C%5Cexample_author%5C%5Cdocuments%5C%5Cexample_package)
+    - [-rccPostInstall:](#-rccpostinstall)
+    - [pip install -e](#pip-install--e)
+    - [filepath](#filepath)
 - [Action server example](#action-server-example)
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-<!-- markdownlint-restore -->
 
 ## Prerequisites
 
@@ -162,11 +161,11 @@ my_project/
 ```
 
 - `my_project`: Root directory of the whole project.
-- `src/`: The directory where your packages code lives.
-- `my_package`: Reprecents the Python package that contains your code
-- `__init__.py`: Marks the directory as a Python package
-- `module(x).py`: A module from your package
-- `tests/`: Unit tests for your package code.`(optional)`
+  - `src/`: The directory where your packages code lives.
+    - `my_package`: Reprecents the Python package that contains your code
+      - `__init__.py`: Marks the directory as a Python package
+      - `module(x).py`: A module from your package
+  - `tests/`: Unit tests for your package code.`(optional)`
 - `LICENSE`: License agreement for your project.
 - `README.md`: Markdown file describing your project and how to use it.
 - `pyproject.toml`: Configuration file for build system requirements.
@@ -302,8 +301,6 @@ This is from a private GitHub repository:
     - git+https://example_author:github_pat_12345@github.com/example_author/example_package@V1.0.0
 ```
 
-Let's break down each part:
-
 1. **`git+https://`**
    - **Explanation**: This indicates that the package should be installed from a Git repository using the HTTPS protocol. The `git+` prefix tells the installer (pip) that this is a Git repository.
 
@@ -346,9 +343,9 @@ You can also install a package from a local folder by specifying its path. This 
 
 - **Explanation**: The `pip install -e` command installs a package in "editable" mode. This means that any changes made to the source code will immediately affect the installed package without needing to reinstall it. This is particularly useful during development.
 
-#### `"C:\\Users\\example_author\\Documents\\example_package"`
+#### `filepath`
 
-- **Explanation**: This is the path to the local folder containing the package. Note that the path should be enclosed in quotes and use double backslashes `\\` to escape the backslash character in Windows file paths.
+- **Explanation**: `"C:\\Users\\example_author\\Documents\\example_package"` This is the path to the local folder containing the package. Note that the path should be enclosed in quotes `""` and use double backslashes `\\` to escape the backslash character in Windows file paths.
 
 ---
 
@@ -361,6 +358,22 @@ Below is an example how your package.yaml might look like.
 ![example of action server pacakge.yaml](action-server-example.jpg)
 
 >[!TIP]
->For additional info about syntax, see [action-server documentation](https://github.com/robocorp/robocorp/tree/master/action_server/docs)/guides/01-package-yaml.md.
+>For additional info about syntax, see [action-server documentation](https://github.com/robocorp/robocorp/tree/master/action_server/docs)/guides/[01-package-yaml.md](https://github.com/robocorp/robocorp/blob/master/action_server/docs/guides/01-package-yaml.md).
 
 ---
+
+<a href="#table-of-contents" style="
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  background: #282828; /* Dark background for contrast */
+  border: 2px solid;
+  border-image: linear-gradient(45deg, #ff6ec7, #35d1ff) 1; /* Gradient border */
+  padding: 5px 10px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #fff; /* Custom text color */
+  font-family: 'Roboto', sans-serif; /* Modern font */
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.6); /* Glowing text */
+  transition: background 0.3s, color 0.3s;
+">Table of contents</a>
