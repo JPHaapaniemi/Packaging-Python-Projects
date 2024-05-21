@@ -8,31 +8,35 @@ This documentation provides a comprehensive guide on how to create and package y
 >[!TIP]
 >See [Further Resources](#further-resources) for more precise documentation on specific matters.
 
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
-- [Creating and Using Python Packages with Robocorp](#creating-and-using-python-packages-with-robocorp)
-  - [Prerequisites](#prerequisites)
-    - [Installing Python](#installing-python)
-    - [Installing and upgrading `build` and `pip`](#installing-and-upgrading-build-and-pip)
-    - [pyproject.toml](#pyprojecttoml)
-  - [Project Structure](#project-structure)
-  - [Building Your Package](#building-your-package)
-  - [Publishing Your Package](#publishing-your-package)
-  - [Versioning](#versioning)
-  - [Continuous Integration](#continuous-integration)
-  - [Further Resources](#further-resources)
-  - [Robocorp python packages](#robocorp-python-packages)
-    - [1.Installing from PyPI](#1installing-from-pypi)
-    - [2.Floating dependency from private github repository](#2floating-dependency-from-private-github-repository)
-    - [3.Installing from a local folder](#3installing-from-a-local-folder)
-      - [`-rccPostInstall:`](#-rccpostinstall)
-      - [`pip install -e`](#pip-install--e)
-      - [`"C:\\Users\\example_author\\Documents\\example_package"`](#c%5C%5Cusers%5C%5Cexample_author%5C%5Cdocuments%5C%5Cexample_package)
-  - [Action server example](#action-server-example)
-
+- [Prerequisites](#prerequisites)
+  - [Installing Python](#installing-python)
+  - [Installing and upgrading `build` and `pip`](#installing-and-upgrading-build-and-pip)
+  - [pyproject.toml](#pyprojecttoml)
+    - [build-system](#build-system)
+    - [project](#project)
+    - [project.urls](#projecturls)
+- [Project Structure](#project-structure)
+- [Generating distribution archives](#generating-distribution-archives)
+- [Publishing Your Package](#publishing-your-package)
+- [Versioning](#versioning)
+- [Continuous Integration](#continuous-integration)
+- [Further Resources](#further-resources)
+- [Robocorp python packages](#robocorp-python-packages)
+  - [1.Installing from PyPI](#1installing-from-pypi)
+  - [2.Floating dependency from private github repository](#2floating-dependency-from-private-github-repository)
+  - [3.Installing from a local folder](#3installing-from-a-local-folder)
+    - [`-rccPostInstall:`](#-rccpostinstall)
+    - [`pip install -e`](#pip-install--e)
+    - [`"C:\\Users\\example_author\\Documents\\example_package"`](#c%5C%5Cusers%5C%5Cexample_author%5C%5Cdocuments%5C%5Cexample_package)
+- [Action server example](#action-server-example)
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<!-- markdownlint-restore -->
 
 ## Prerequisites
 
@@ -62,17 +66,20 @@ py -m pip install --upgrade build
 
 ### pyproject.toml
 
-The `pyproject.toml` file is increasingly used as it allows you to specify build system requirements separately. Here is an example:
+The `pyproject.toml` file is a configuration file used in Python projects to define build system requirements and project metadata. It's particularly useful for specifying dependencies and settings needed for building and packaging Python projects.
 
 ```toml
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
-build-backend = "setuptools.build_meta"
 
 [project]
 name = "example_package_YOUR_USERNAME_HERE"
 version = "0.0.1"
+dependencies = [
+  "some_dependency",
+  "example_dependacy>1.0.0",
+]
 authors = [
   { name="Example Author", email="author@example.com" },
 ]
@@ -89,6 +96,50 @@ classifiers = [
 Homepage = "https://github.com/pypa/sampleproject"
 Issues = "https://github.com/pypa/sampleproject/issues"
 ```
+
+#### build-system
+
+This section defines the requirements for building the project.
+
+- `requires`: Specifies the packages needed to build the project. In this example, it lists "hatchling", which is a build backend.
+- `build-backend`: Specifies the build backend to use.
+
+#### project
+
+This section contains metadata about the project itself.
+
+- `name`: The name of the project. It should be unique.
+- `version`: The current version of the project.
+- `dependencies`: List of packages dependecies
+- `authors`: A list of authors of the project. Each author can have a name and an email.
+- `description`: A short description of what the project does.
+- `readme`: The path to the README file, which contains a detailed description of the project.
+- `requires-python`: Specifies the Python versions that the project is compatible with.
+- `classifiers`: A list of classifiers that provide additional metadata about the project, such as the programming language, license, and operating system compatibility.
+
+#### project.urls
+
+This section is optional and none of its fields are required, but they are useful for providing additional information to users
+
+>[!TIP]
+>For more specific information about pyproject.toml see [documentation](https://packaging.python.org/en/latest/guides/writing-pyproject-toml/) or [Further Resources](#further-resources) -> Sample project
+
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
+<details><summary>Required minimum fields</summary>
+Example of a minimum required fields of a Python package.
+
+```toml
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "example_package_YOUR_USERNAME_HERE"
+version = "0.0.1"
+```
+</details>
+<!-- markdownlint-restore -->
 
 ## Project Structure
 
@@ -120,9 +171,9 @@ my_project/
 - `README.md`: Markdown file describing your project and how to use it.
 - `pyproject.toml`: Configuration file for build system requirements.
 
-## Building Your Package
+## Generating distribution archives
 
-To build your package, navigate to the directory containing `pyproject.toml` and run:
+To to generate distribution packages for the package, navigate to the directory containing `pyproject.toml` and run:
 
 ```bash
 python -m build
@@ -130,33 +181,54 @@ python -m build
 
 This command will generate a source distribution (`tar.gz`) and a wheel (`whl`) in a `dist/` folder.
 
+```text
+dist/
+├── example_package-1.0.0-py3-none-any.whl
+└── example_package-1.0.0.tar.gz
+```
+
 ## Publishing Your Package
 
-To upload your package to the Python Package Index (PyPI), you first need to install twine:
+>[!NOTE]
+>This is just a short summary on how to publish a package. For more information see [documentation](https://packaging.python.org/en/latest/tutorials/packaging-projects/#uploading-the-distribution-archives)
+
+1. Register account on [TestPyPI](https://test.pypi.org) and [PyPI](https://pypi.org).
+2. We can use [twine](https://packaging.python.org/en/latest/key_projects/#twine) to upload the distribution packages.
 
 ```bash
 python -m pip install --user --upgrade twine
 ```
-
-Then, upload your package to testpypi using:
+<!-- markdownlint-capture -->
+<!-- markdownlint-disable -->
+3. After installation, run Twine to upload all of the archives under `dist`
 
 ```bash
 python -m twine upload --repository testpypi dist/*
 ```
+  
+4. You will be prompted for a username and password.   
+5. Once uploaded, your package should be viewable on TestPyPI.  
+6. Then after a review of successful upload, you can install your package using:
 
-Make sure you're registered on [testPyPI](https://test.pypi.org/)
+```bash
+python -m pip install --index-url https://test.pypi.org/simple/ --no-deps example-package
+```
 
-Then after a review of successful upload, upload your package to pypi using:
+7. Same steps can be repeated with slightly modified syntax to publish into PyPI.
+<!-- markdownlint-restore -->
 
 ```bash
 python -m twine upload --repository pypi dist/*
 ```
 
-Make sure you're registered on [PyPI](https://pypi.org/)
+```bash
+python -m pip install example-package
+```
 
 ## Versioning
 
-Adhere to semantic versioning rules for your package. Update the `version` argument in `pyproject.toml` each time you publish a new release.
+>[!WARNING]
+>Adhere to semantic versioning rules for your package. Update the `version` argument in `pyproject.toml` each time you publish a new release.
 
 Semantic versioning is a standardized way of assigning version numbers to software releases in order to communicate the nature of changes in the codebase. It consists of three components: MAJOR.MINOR.PATCH.
 
@@ -182,6 +254,7 @@ Consider setting up Continuous Integration (CI) to automatically build and publi
 - Python Packaging User Guide: <https://packaging.python.org>
 - Sample project: <https://github.com/pypa/sampleproject>
 - twine documentation: <https://twine.readthedocs.io/en/latest/>
+- PyPI help: <https://pypi.org/help/>
 
 The Python packaging ecosystem is evolving, and other methods may be worth exploring for possible simplified project configuration and dependency management features.
 
