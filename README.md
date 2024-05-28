@@ -8,19 +8,12 @@ This documentation provides a comprehensive guide on how to create and package y
 >[!TIP]
 >See [Further Resources](#further-resources) for more precise documentation on specific matters.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-## Table of Contents
-
-*generated with [DocToc](https://github.com/thlorenz/doctoc)*
+## **Table of Contents**
 
 - [Prerequisites](#prerequisites)
   - [Installing Python](#installing-python)
   - [Installing and upgrading build and pip](#installing-and-upgrading-build-and-pip)
   - [pyproject.toml](#pyprojecttoml)
-    - [build-system](#build-system)
-    - [project](#project)
-    - [project.urls](#projecturls)
 - [Project Structure](#project-structure)
 - [Generating distribution archives](#generating-distribution-archives)
 - [Publishing Your Package](#publishing-your-package)
@@ -28,14 +21,10 @@ This documentation provides a comprehensive guide on how to create and package y
 - [Continuous Integration](#continuous-integration)
 - [Further Resources](#further-resources)
 - [Robocorp python packages](#robocorp-python-packages)
-  - [1.Installing from PyPI](#1installing-from-pypi)
-  - [2.Floating dependency from private github repository](#2floating-dependency-from-private-github-repository)
-  - [3.Installing from a local folder](#3installing-from-a-local-folder)
-    - [-rccPostInstall:](#-rccpostinstall)
-    - [pip install -e](#pip-install--e)
-    - [filepath](#filepath)
+  - [Installing from PyPI](#installing-from-pypi)
+  - [Floating dependency from private github repository](#floating-dependency-from-private-github-repository)
+  - [Installing from a local folder](#installing-from-a-local-folder)
 - [Action server example](#action-server-example)
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Prerequisites
 
@@ -73,7 +62,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "example_package_YOUR_USERNAME_HERE"
+name = "example_package"
 version = "0.0.1"
 dependencies = [
   "some_dependency",
@@ -134,7 +123,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "example_package_YOUR_USERNAME_HERE"
+name = "example_package"
 version = "0.0.1"
 ```
 </details>
@@ -263,7 +252,7 @@ There are 3 different ways to have your python package added as a dependency int
 
 ![example of 3 different methods](examples.jpg)
 
-### 1.Installing from PyPI
+### Installing from PyPI
 
 To install a package from PyPI, specify it in your configuration file. If you do not specify a version, the latest version will be installed. However, note that without a locked version, it won't be cloud-cacheable.
 
@@ -283,7 +272,7 @@ To install a package from PyPI, specify it in your configuration file. If you do
 >[!TIP]
 >Adding a link to the [release notes](https://pypi.org/project/) of the packages helps maintenance and security.
 
-### 2.Floating dependency from private github repository
+### Floating dependency from private github repository
 
 For dependencies hosted on a GitHub repository, you can specify the repository URL in the pip section. This allows you to install the package directly from the source. You can pin to a specific branch, tag, or commit. If the repository is private, generate and use a [personal access token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens) for access.
 
@@ -301,21 +290,17 @@ This is from a private GitHub repository:
     - git+https://example_author:github_pat_12345@github.com/example_author/example_package@V1.0.0
 ```
 
-1. **`git+https://`**
-   - **Explanation**: This indicates that the package should be installed from a Git repository using the HTTPS protocol. The `git+` prefix tells the installer (pip) that this is a Git repository.
+- `git+https://`: This indicates that the package should be installed from a Git repository using the HTTPS protocol. The `git+` prefix tells the installer (pip) that this is a Git repository.
 
-2. **`example_author:github_pat_12345`**
-   - **`example_author`**: This is the GitHub username. It specifies the account on GitHub where the repository is hosted.
-   - **`github_pat_12345`**: This is a placeholder for the personal access token (PAT). The PAT is used for authentication to allow access to private repositories. In practice, this should be a secure and confidential string, and never shared or hard-coded in public files.
+- `example_author:github_pat_12345`
+  - `example_author`: This is the GitHub username. It specifies the account on GitHub where the repository is hosted.
+  - `github_pat_12345`: This is a placeholder for the personal access token (PAT). The PAT is used for authentication to allow access to private repositories. In practice, this should be a secure and confidential string, and never shared or hard-coded in public files.
 
-3. **`@github.com/`**
-   - **Explanation**: This specifies the host domain where the Git repository is located, which is GitHub in this case.
+- `@github.com/`: This specifies the host domain where the Git repository is located, which is GitHub in this case.
 
-4. **`example_author/example_package`**
-   - **Explanation**: This is the path to the repository on GitHub. It includes the username `example_author` and the repository name `example_package`.
+- `example_author/example_package`: This is the path to the repository on GitHub. It includes the username `example_author` and the repository name `example_package`.
 
-5. **`@V1.0.0`**
-   - **Explanation**: This specifies the version of the repository to install. In Git terms, this can be a branch, a tag, or a commit hash. Here, `V1.0.0` is a tag that points to a specific version of the code.
+- `@V1.0.0`: This specifies the version of the repository to install. In Git terms, this can be a branch, a tag, or a commit hash. Here, `V1.0.0` is a tag that points to a specific version of the code.
 
 > [!WARNING]
 > Never expose your personal access token in public repositories. Use environment variables or secure vaults to manage sensitive information.
@@ -326,7 +311,7 @@ This is from a private GitHub repository:
 > Use fine-grained personal access tokens for added security.  
 > These tokens can only access specific repositories and have an expiration date.
 
-### 3.Installing from a local folder
+### Installing from a local folder
 
 You can also install a package from a local folder by specifying its path. This is useful for development or testing when you have the package source code available locally and want to install it directly without uploading it to a package repository.
 
@@ -335,17 +320,11 @@ You can also install a package from a local folder by specifying its path. This 
     - pip install -e "C:\\Users\\example_author\\Documents\\example_package"
 ```
 
-#### `-rccPostInstall:`
+- `-rccPostInstall:`: This section specifies post-installation commands for the Robocorp Control Center (RCC). Commands listed here will run after the main installation process.
 
-- **Explanation**: This section specifies post-installation commands for the Robocorp Control Center (RCC). Commands listed here will run after the main installation process.
+- `pip install -e`: Command installs a package in "editable" mode. This means that any changes made to the source code will immediately affect the installed package without needing to reinstall it. This is particularly useful during development.
 
-#### `pip install -e`
-
-- **Explanation**: The `pip install -e` command installs a package in "editable" mode. This means that any changes made to the source code will immediately affect the installed package without needing to reinstall it. This is particularly useful during development.
-
-#### `filepath`
-
-- **Explanation**: `"C:\\Users\\example_author\\Documents\\example_package"` This is the path to the local folder containing the package. Note that the path should be enclosed in quotes `""` and use double backslashes `\\` to escape the backslash character in Windows file paths.
+- `"C:\\Users\\example_author\\Documents\\example_package"`: This is the path to the local folder containing the package. Note that the path should be enclosed in quotes `""` and use double backslashes `\\` to escape the backslash character in Windows file paths.
 
 ---
 
@@ -361,19 +340,3 @@ Below is an example how your package.yaml might look like.
 >For additional info about syntax, see [action-server documentation](https://github.com/robocorp/robocorp/tree/master/action_server/docs)/guides/[01-package-yaml.md](https://github.com/robocorp/robocorp/blob/master/action_server/docs/guides/01-package-yaml.md).
 
 ---
-
-<a href="#table-of-contents" style="
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
-  background: #282828; /* Dark background for contrast */
-  border: 2px solid;
-  border-image: linear-gradient(45deg, #ff6ec7, #35d1ff) 1; /* Gradient border */
-  padding: 5px 10px;
-  border-radius: 5px;
-  text-decoration: none;
-  color: #fff; /* Custom text color */
-  font-family: 'Roboto', sans-serif; /* Modern font */
-  text-shadow: 0 0 5px rgba(255, 255, 255, 0.6), 0 0 10px rgba(255, 255, 255, 0.6); /* Glowing text */
-  transition: background 0.3s, color 0.3s;
-">Table of contents</a>
